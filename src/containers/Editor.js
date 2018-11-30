@@ -1,5 +1,7 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { connect } from 'react-redux'
+import { changeText } from '../actions'
 
 import EditorComponent from '../components/Editor'
 
@@ -9,12 +11,22 @@ class Editor extends React.Component {
    * @return {React.Element} 描画コンポーネント
    */
   render() {
-    return <EditorComponent />
+    const { changeText, text } = this.props
+    return <EditorComponent text={text} onChange={changeText} />
   }
 }
 
-const mapStateToProps = state => ({})
-const mapDispatchToProps = dispatch => ({})
+Editor.propTypes = {
+  changeText: PropTypes.func.isRequired,
+  text: PropTypes.string.isRequired
+}
+
+const mapStateToProps = state => ({
+  text: state.Viewer.text
+})
+const mapDispatchToProps = dispatch => ({
+  changeText: event => dispatch(changeText(event.target.value))
+})
 
 export default connect(
   mapStateToProps,
